@@ -1,4 +1,4 @@
-import DateCounter from "../../00-Ultimate-react-course-main/10-react-quiz/starter/DateCounter copy";
+import DateCounter from ".//DateCounter";
 
 export default function App() {
   return (
