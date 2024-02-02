@@ -6,12 +6,14 @@ import StartScreen from "./StartScreen";
 import { useReducer, useEffect } from "react";
 import Question from "./Question";
 import NextButton from "./NextButton";
+import Progress from "./Progress";
 
 const initialState = {
   questions: [],
   status: "loading",
   index: 0,
   answer: null,
+  points: 0,
 };
 
 function reducer(state, action) {
@@ -29,8 +31,8 @@ function reducer(state, action) {
         answer: action.payload,
         points:
           action.payload === question.correctOption
-            ? state.point + question.points
-            : state.point,
+            ? state.points + question.points
+            : state.points,
       };
     case "nextQuestion":
       return { ...state, index: state.index + 1, answer: null };
@@ -40,13 +42,16 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [{ questions, status, index, answer }, dispatch] = useReducer(
+  const [{ questions, status, index, answer, points }, dispatch] = useReducer(
     reducer,
     initialState
   );
 
-  // console.log("hii2");
   const numQuestions = questions.length;
+  const maxPossiblePoints = questions.reduce(
+    (prev, cur) => prev + cur.points,
+    0
+  );
 
   useEffect(function () {
     fetch("http://localhost:8000/questions")
@@ -67,12 +72,18 @@ export default function App() {
         )}
         {status === "active" && (
           <>
+            <Progress
+              index={index}
+              numQuestions={numQuestions}
+              points={points}
+              maxPossiblePoints={maxPossiblePoints}
+              answer={answer}
+            />
             <Question
               dispatch={dispatch}
               answer={answer}
               question={questions[index]}
             />
-            {console.log("->", typeof dispatch)}
 
             <NextButton dispatch={dispatch} answer={answer} />
           </>
