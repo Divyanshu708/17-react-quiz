@@ -7,6 +7,7 @@ import { useReducer, useEffect } from "react";
 import Question from "./Question";
 import NextButton from "./NextButton";
 import Progress from "./Progress";
+import FinishScreen from "./FinishScreen";
 
 const initialState = {
   questions: [],
@@ -88,6 +89,7 @@ export default function App() {
             <NextButton dispatch={dispatch} answer={answer} />
           </>
         )}
+        {status === "finished" && <FinishScreen />}
       </Main>
     </div>
   );
