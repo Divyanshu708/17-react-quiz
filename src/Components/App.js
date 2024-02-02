@@ -5,6 +5,7 @@ import Error from "./Error";
 import StartScreen from "./StartScreen";
 import { useReducer, useEffect } from "react";
 import Question from "./Question";
+import NextButton from "./NextButton";
 
 const initialState = {
   questions: [],
@@ -31,6 +32,8 @@ function reducer(state, action) {
             ? state.point + question.points
             : state.point,
       };
+    case "nextQuestion":
+      return { ...state, index: state.index + 1, answer: null };
     default:
       throw new Error("Action unknown!");
   }
@@ -42,6 +45,7 @@ export default function App() {
     initialState
   );
 
+  // console.log("hii2");
   const numQuestions = questions.length;
 
   useEffect(function () {
@@ -62,11 +66,16 @@ export default function App() {
           <StartScreen numQuestions={numQuestions} dispatch={dispatch} />
         )}
         {status === "active" && (
-          <Question
-            dispatch={dispatch}
-            answer={answer}
-            question={questions[index]}
-          />
+          <>
+            <Question
+              dispatch={dispatch}
+              answer={answer}
+              question={questions[index]}
+            />
+            {console.log("->", typeof dispatch)}
+
+            <NextButton dispatch={dispatch} answer={answer} />
+          </>
         )}
       </Main>
     </div>
