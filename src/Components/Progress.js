@@ -5,7 +5,6 @@ export default function Progress({
   points,
   answer,
 }) {
-  console.log("points", points);
   return (
     <header className="progress">
       <progress max={numQuestions} value={index + Number(answer !== null)} />
