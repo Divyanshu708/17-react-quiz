@@ -1,3 +1,5 @@
+## This is a simple react quiz app that I have worked along with learning react:
+
 # how to run:
 
 -step: 1
